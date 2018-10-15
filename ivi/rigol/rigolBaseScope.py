@@ -308,6 +308,13 @@ class rigolBaseScope(scpi.common.IdnCommand, scpi.common.ErrorQuery, scpi.common
                         oscilloscope is running, all the data in active channels and functions is
                         erased; however, new data is displayed on the next acquisition.
                         """))
+        self._add_property('acquisition.analog_sample_rate',
+                        self._get_acquisition_analog_sample_rate,
+                        None,
+                        ivi.Doc("""
+                        Returns or sets the effective sample rate of the acquired analog waveform using the
+                        current configuration. The units are samples per second.
+                        """,))
 
         self._init_channels()
 
@@ -593,6 +600,12 @@ class rigolBaseScope(scpi.common.IdnCommand, scpi.common.ErrorQuery, scpi.common
         self._acquisition_time_per_record = value
         self._set_cache_valid()
         self._set_cache_valid(False, 'acquisition_start_time')
+
+    def _get_acquisition_analog_sample_rate(self):
+        if not self._driver_operation_simulate and not self._get_cache_valid():
+            self._acquisition__analog_sample_rate = self._ask(":acquire:srate?")
+            self._set_cache_valid()
+        return self._acquisition__analog_sample_rate
 
     def _get_channel_label(self, index):
         index = ivi.get_index(self._channel_name, index)
