@@ -468,7 +468,7 @@ class rigolBaseScope(scpi.common.IdnCommand, scpi.common.ErrorQuery, scpi.common
 
     def _get_timebase_scale(self):
         if not self._driver_operation_simulate and not self._get_cache_valid():
-            self._timebase_scale = float(self._ask(":timebase:scale?"))
+            self._timebase_scale = float(self._ask(":timebase:main:scale?"))
             self._timebase_range = self._timebase_scale * self._horizontal_divisions
             self._set_cache_valid()
         return self._timebase_scale
@@ -476,7 +476,7 @@ class rigolBaseScope(scpi.common.IdnCommand, scpi.common.ErrorQuery, scpi.common
     def _set_timebase_scale(self, value):
         value = float(value)
         if not self._driver_operation_simulate:
-            self._write(":timebase:scale %e" % value)
+            self._write(":timebase:main:scale %e" % value)
         self._timebase_scale = value
         self._timebase_range = value * self._horizontal_divisions
         self._set_cache_valid()
@@ -539,7 +539,7 @@ class rigolBaseScope(scpi.common.IdnCommand, scpi.common.ErrorQuery, scpi.common
     def _get_acquisition_start_time(self):
         pos = 0
         if not self._driver_operation_simulate and not self._get_cache_valid():
-            pos = float(self._ask(":timebase:offset?"))
+            pos = float(self._ask(":timebase:main:offset?"))
             self._set_cache_valid()
         self._acquisition_start_time = pos - self._get_acquisition_time_per_record() / 2
         return self._acquisition_start_time
@@ -548,7 +548,7 @@ class rigolBaseScope(scpi.common.IdnCommand, scpi.common.ErrorQuery, scpi.common
         value = float(value)
         value = value + self._get_acquisition_time_per_record() / 2
         if not self._driver_operation_simulate:
-            self._write(":timebase:offset %e" % value)
+            self._write(":timebase:main:offset %e" % value)
         self._acquisition_start_time = value
         self._set_cache_valid()
 
