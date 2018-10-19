@@ -87,9 +87,9 @@ SlopeMapping = {
         'negative': 'neg',
         'either': 'rfal'}
 MeasurementFunctionMapping = {
-        'rise_time': 'rtime',
-        'fall_time': 'ftime',
-        'frequency': 'frequency',
+        'rise_time': 'RTIME',
+        'fall_time': 'FTIME',
+        'frequency': 'FREQUENCY',
         'period': 'period',
         'voltage_rms': 'vrms',
         'voltage_peak_to_peak': 'vpp',
@@ -447,14 +447,14 @@ class rigolBaseScope(scpi.common.IdnCommand, scpi.common.ErrorQuery, scpi.common
 
     def _get_timebase_position(self):
         if not self._driver_operation_simulate and not self._get_cache_valid():
-            self._timebase_position = float(self._ask(":timebase:offset?"))
+            self._timebase_position = float(self._ask(":timebase:main:offset?"))
             self._set_cache_valid()
         return self._timebase_position
 
     def _set_timebase_position(self, value):
         value = float(value)
         if not self._driver_operation_simulate:
-            self._write(":timebase:offset %e" % value)
+            self._write(":timebase:main:offset %e" % value)
         self._timebase_position = value
         self._set_cache_valid()
         self._set_cache_valid(False, 'timebase_window_position')
@@ -1186,25 +1186,32 @@ class rigolBaseScope(scpi.common.IdnCommand, scpi.common.ErrorQuery, scpi.common
 
     def _measurement_fetch_waveform_measurement(self, index, measurement_function, ref_channel = None):
         index = ivi.get_index(self._channel_name, index)
+        print 'measurement_function ', measurement_function
+        print 'index is ', index
         if index < self._analog_channel_count:
             if measurement_function not in MeasurementFunctionMapping:
                 raise ivi.ValueNotSupportedException()
             func = MeasurementFunctionMapping[measurement_function]
+            print 'func is ', func
         else:
             if measurement_function not in MeasurementFunctionMappingDigital:
                 raise ivi.ValueNotSupportedException()
             func = MeasurementFunctionMappingDigital[measurement_function]
         if not self._driver_operation_simulate:
-            l = func.split(' ')
-            l[0] = l[0] + '?'
-            if len(l) > 1:
-                l[-1] = l[-1] + ','
-            func = ' '.join(l)
-            query = ":measure:%s %s" % (func, self._channel_name[index])
+            # l = func.split(' ')
+            # l[0] = l[0] + '?'
+            # if len(l) > 1:
+            #     l[-1] = l[-1] + ','
+            # func = ' '.join(l)
+            query = ":measure:item? %s, %s" % (func, self._channel_name[index])
             if measurement_function in ['phase', 'delay']:
                 ref_index = ivi.get_index(self._channel_name, ref_channel)
                 query += ", %s" % self._channel_name[ref_index]
-            return float(self._ask(query))
+            meas = self._ask(query)
+            if meas == 'measure error!':
+                return meas
+            else:
+                return float(meas)
         return 0
 
     def _measurement_read_waveform_measurement(self, index, measurement_function, maximum_time):
