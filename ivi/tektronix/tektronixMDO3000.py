@@ -48,3 +48,12 @@ class tektronixMDO3000(tektronixMDO4000, tektronixMDOAFG):
 
         self._init_channels()
         self._init_outputs()
+
+    def _init_channels(self):
+        self._channel_count = self._analog_channel_count + self._digital_channel_count
+        try:
+            super(tektronixMDO4000, self)._init_channels()
+        except AttributeError:
+            pass
+        self.channels._set_list(self._channel_name)
+        self._channel_name_dict = ivi.get_index_dict(self._channel_name)
