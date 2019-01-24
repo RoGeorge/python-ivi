@@ -577,9 +577,13 @@ class rigolBaseScope(scpi.common.IdnCommand, scpi.common.ErrorQuery, scpi.common
         return self._acquisition_number_of_points_minimum
 
     def _set_acquisition_number_of_points_minimum(self, value):
-        value = int(value)
-        if not self._driver_operation_simulate:
-            self._write(":acquire:mdepth %d" % value)
+        if value == 'AUTO':
+            if not self._driver_operation_simulate:
+                self._write(":acquire:mdepth %s" % value)
+        else:
+            value = int(value)
+            if not self._driver_operation_simulate:
+                self._write(":acquire:mdepth %d" % value)
         self._acquisition_number_of_points_minimum = value
 
     def _get_acquisition_record_length(self):
