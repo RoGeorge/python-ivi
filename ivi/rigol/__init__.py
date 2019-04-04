@@ -28,6 +28,7 @@ THE SOFTWARE.
 # DS1000Z
 from .rigolDS1054Z import rigolDS1054Z
 from .rigolDS1074Z import rigolDS1074Z
+from .rigolDS1074ZPlus import rigolDS1074ZPlus
 from .rigolDS1104Z import rigolDS1104Z
 from .rigolMSO1074Z import rigolMSO1074Z
 from .rigolMSO1104Z import rigolMSO1104Z
@@ -57,6 +58,16 @@ from .rigolMSO4032 import rigolMSO4032
 from .rigolMSO4034 import rigolMSO4034
 from .rigolMSO4052 import rigolMSO4052
 from .rigolMSO4054 import rigolMSO4054
+# MSO5000
+from .rigolMSO5072 import rigolMSO5072
+from .rigolMSO5074 import rigolMSO5074
+# MSO7000
+from .rigolDS7014 import rigolDS7014
+from .rigolMSO7014 import rigolMSO7014
+# MSO8000
+from .rigolMSO8064 import rigolMSO8064
+
+
 
 # DC Power Supplies
 # DP800

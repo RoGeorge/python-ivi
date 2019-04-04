@@ -24,31 +24,20 @@ THE SOFTWARE.
 
 """
 
-from .rigolBaseScope import *
-from .rigolDSSource import *
+from .rigolDS7000 import *
 
-class rigolDS1000Z(rigolBaseScope, rigolDSSource):
-    "Rigol DS1000Z series IVI oscilloscope driver"
-
+class rigolDS7014(rigolDS7000):
+    "Rigol DS7014 IVI oscilloscope driver"
+    
     def __init__(self, *args, **kwargs):
-        self.__dict__.setdefault('_instrument_id', '')
+        self.__dict__.setdefault('_instrument_id', 'DS7014')
 
-        super(rigolDS1000Z, self).__init__(*args, **kwargs)
+        super(rigolDS7014, self).__init__(*args, **kwargs)
 
         self._analog_channel_count = 4
-        self._digital_channel_count = 16
+        self._digital_channel_count = 0
+        self._channel_count = self._analog_channel_count + self._digital_channel_count
         self._bandwidth = 100e6
         self._bandwidth_limit = {'20M': 20e6}
-        self._max_averages = 1024
-
-        self._horizontal_divisions = 12
-        self._vertical_divisions = 8
-
-        # Internal source
-        self._output_count = 2
-
-        self._identity_description = "Rigol DS1000Z series IVI oscilloscope driver"
-        self._identity_supported_instrument_models = ['DS1054Z', 'DS1074Z', 'DS1074ZPlus', 'DS1104Z', 'MSO1074Z', 'MSO1104Z']
-
+        
         self._init_channels()
-        self._init_outputs()
