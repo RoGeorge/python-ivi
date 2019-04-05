@@ -89,3 +89,32 @@ class rigolDS2000A(rigolBaseScope, rigolDSSource):
         self._set_cache_valid(False, 'channel_scale', index)
         self._set_cache_valid(False, 'channel_range', index)
         self._set_cache_valid(False, 'trigger_level')
+
+    def _measurement_fetch_waveform_measurement(self, index, measurement_function, ref_channel = None):
+        print 'index is ', index
+        index = ivi.get_index(self._channel_name, index)
+        if index < self._analog_channel_count:
+            if measurement_function not in MeasurementFunctionMapping:
+                raise ivi.ValueNotSupportedException()
+            func = MeasurementFunctionMapping[measurement_function]
+        else:
+            if measurement_function not in MeasurementFunctionMappingDigital:
+                raise ivi.ValueNotSupportedException()
+            func = MeasurementFunctionMappingDigital[measurement_function]
+        if not self._driver_operation_simulate:
+            # l = func.split(' ')
+            # l[0] = l[0] + '?'
+            # if len(l) > 1:
+            #     l[-1] = l[-1] + ','
+            # func = ' '.join(l)
+            query = ":measure:%s? %s" % (func, self._channel_name[index])
+            print 'query is ', query
+            if measurement_function in ['phase', 'delay']:
+                ref_index = ivi.get_index(self._channel_name, ref_channel)
+                query += ", %s" % self._channel_name[ref_index]
+            meas = self._ask(query)
+            if meas == 'measure error!':
+                return meas
+            else:
+                return float(meas)
+        return 0
