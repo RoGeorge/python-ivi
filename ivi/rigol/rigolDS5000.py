@@ -25,8 +25,10 @@ THE SOFTWARE.
 """
 
 from .rigolBaseScope import *
+from .rigolBaseWG import *
 
-class rigolDS5000(rigolBaseScope):
+
+class rigolDS5000(rigolBaseScope, rigolBaseWG):
     "Rigol DS5000 series IVI oscilloscope driver"
 
     def __init__(self, *args, **kwargs):
@@ -48,6 +50,8 @@ class rigolDS5000(rigolBaseScope):
         'MSO5104', 'MSO5204', 'MSO5354']
 
         self._init_channels()
+        self._init_outputs()
+
 
     def _display_fetch_screenshot(self, format='bmp', invert=False):
         if self._driver_operation_simulate:
