@@ -111,13 +111,8 @@ MeasurementFunctionMapping = {
         #'phase': 'rphase',
         #'delay': 'rdelay'}
 MeasurementFunctionMappingDigital = {
-        'rise_time': 'risetime',
-        'fall_time': 'falltime',
         'frequency': 'frequency',
-        'period': 'period',
-        'width_negative': 'nwidth',
-        'width_positive': 'pwidth',
-        'duty_cycle_positive': 'dutycycle'}
+        'period': 'period',}
 ScreenshotImageFormatMapping = {
         'tif': 'tiff',
         'tiff': 'tiff',
@@ -146,6 +141,8 @@ class rigolBaseScope(scpi.common.IdnCommand, scpi.common.ErrorQuery, scpi.common
     "Rigol generic IVI oscilloscope driver"
 
     def __init__(self, *args, **kwargs):
+        cls = 'IviScope'
+        grp = 'Base'
         self.__dict__.setdefault('_instrument_id', '')
         self._analog_channel_name = list()
         self._analog_channel_count = 4
@@ -573,7 +570,7 @@ class rigolBaseScope(scpi.common.IdnCommand, scpi.common.ErrorQuery, scpi.common
             if value == 'AUTO':
                 self._acquisition_number_of_points_minimum = value
             else:
-                self._acquisition_number_of_points_minimum = int(value)
+                self._acquisition_number_of_points_minimum = float(value)
         return self._acquisition_number_of_points_minimum
 
     def _set_acquisition_number_of_points_minimum(self, value):
@@ -588,7 +585,7 @@ class rigolBaseScope(scpi.common.IdnCommand, scpi.common.ErrorQuery, scpi.common
 
     def _get_acquisition_record_length(self):
         if not self._driver_operation_simulate:
-            self._acquisition_record_length = int(self._ask(":acquire:mdepth?"))
+            self._acquisition_record_length = float(self._ask(":acquire:mdepth?"))
         return self._acquisition_record_length
 
     def _get_acquisition_time_per_record(self):
@@ -1270,3 +1267,4 @@ class rigolBaseScope(scpi.common.IdnCommand, scpi.common.ErrorQuery, scpi.common
     def _measurement_auto_setup(self):
         if not self._driver_operation_simulate:
             self._write(":autoscale")
+

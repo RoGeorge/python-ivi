@@ -26,10 +26,16 @@ THE SOFTWARE.
 
 from .rigolDS5000 import *
 
+MeasurementFunctionMappingDigital = {
+        'frequency': 'frequency',
+        'period': 'period',}
+
 class rigolMSO5072(rigolDS5000):
     "Rigol MSO5072 IVI oscilloscope driver"
     
     def __init__(self, *args, **kwargs):
+        cls = 'IviScope'
+        grp = 'Base'
         self.__dict__.setdefault('_instrument_id', 'MSO5072')
 
         super(rigolMSO5072, self).__init__(*args, **kwargs)
@@ -39,5 +45,34 @@ class rigolMSO5072(rigolDS5000):
         self._channel_count = self._analog_channel_count + self._digital_channel_count
         self._bandwidth = 100e6
         self._bandwidth_limit = {'20M': 20e6}
-        
+        self._output_count = 2
+        self._add_method('measurement.fetch_waveform_digital', self._measurement_fetch_waveform_digital, ivi.Doc("""description goes here""", cls, grp, '4.3.13'))
         self._init_channels()
+        self._init_outputs()
+
+    def _measurement_fetch_waveform_digital(self, index):
+        raw_data = []
+
+        if self._driver_operation_simulate:
+            return list()
+        self._write(":waveform:source %s" % index)
+        # Read preamble
+        pre = self._ask(":waveform:preamble?").split(',')
+
+        xinc = float(pre[4])
+        xorg = float(pre[5])
+        xref = int(float(pre[6]))
+
+#        if format != 0:
+#            raise UnexpectedResponseException()
+
+        # Read waveform data
+        raw_data.append(self._ask_for_ieee_block(':WAVeform:DATA?'))
+        self._read_raw() # flush buffer
+
+        # convert string of hex values to list of hex strings
+        data_list = list(raw_data[0])
+
+        # convert to times
+        data = [((((k-xref)*xinc) + xorg), e) for k,e in enumerate(data_list)]
+        return data
