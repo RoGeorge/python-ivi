@@ -1266,5 +1266,5 @@ class rigolBaseScope(scpi.common.IdnCommand, scpi.common.ErrorQuery, scpi.common
 
     def _measurement_auto_setup(self):
         if not self._driver_operation_simulate:
-            self._write(":autoscale")
+            self._write(":autoset")
 
