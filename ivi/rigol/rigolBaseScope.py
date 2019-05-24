@@ -585,7 +585,11 @@ class rigolBaseScope(scpi.common.IdnCommand, scpi.common.ErrorQuery, scpi.common
 
     def _get_acquisition_record_length(self):
         if not self._driver_operation_simulate:
-            self._acquisition_record_length = float(self._ask(":acquire:mdepth?"))
+            val = self._ask(":acquire:mdepth?")
+            if val == "AUTO":
+                self._acquisition_record_length  = val
+            else:
+                self._acquisition_record_length =float(val)
         return self._acquisition_record_length
 
     def _get_acquisition_time_per_record(self):
