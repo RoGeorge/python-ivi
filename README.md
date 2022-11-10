@@ -1,3 +1,19 @@
+This is the RoGeorge fork of python-ivi <- from nicedwarf/python-ivi <- from alexforencich/python-ivi <- from python-ivi/python-ivi
+
+- Needed it for its included drivers supporting Rigol instruments, particularly looking at the DS1000Z, DG4000 and the DP800 series (DS1104Z, DG4202, DP832A), because their corresponding drivers from alexforencich/python-ivi were absent or not working, i.e. the DS1000Z drivers not working for meas:item type of commands (2022).  
+- There were 108 forks of python-ivi before creating this 109'th one, while the main python-ivi was not updated for many years now.
+- Another reason is the attempt to add (partial) support for Rigol DG4000 series of Function/Arbitrary Waveform Generators (AWG).  For now, some basic commands are working already (e.g. setting the frequency) if a DG4202 AWG is connected as MS1074Z MSO.
+
+## Installation of Python-IVI from the RoGeorge/python-ivi fork
+
+    # git clone https://github.com/RoGeorge/python-ivi.git
+    # # python setup.py install
+    # cd RoGeorge
+    # pip install -e .
+    
+-----------
+
+
 # Python IVI Readme
 
 For more information and updates:
@@ -24,6 +40,7 @@ Instrument standard from the [IVI foundation](http://www.ivifoundation.org/).
     * Agilent InfiniiVision 7000A/B series
     * Agilent Infiniium 90000A/90000X series
     * LeCroy WaveRunner Xi-A series
+    * Rigol DS1000Z series (and other Rigol MSO and DSO series)
     * Tektronix MDO3000 series
     * Tektronix DPO4000 series
     * Tektronix MDO4000 series
@@ -35,6 +52,7 @@ Instrument standard from the [IVI foundation](http://www.ivifoundation.org/).
     * Agilent InfiniiVision 2000A X-series (Wavegen option)
     * Agilent InfiniiVision 3000A X-series (Wavegen option)
     * Agilent InfiniiVision 4000A X-series (Wavegen option)
+    * Rigol DG4000 series (partially working as a MSO1074Z)
     * Tektronix MDO3000 series (AFG option)
     * Tektronix AWG2000 series
   * DC Power Supplies (dcpwr):
