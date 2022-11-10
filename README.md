@@ -6,10 +6,10 @@ This is the RoGeorge fork of python-ivi <- from nicedwarf/python-ivi <- from ale
 
 ## Installation of Python-IVI from the RoGeorge/python-ivi fork
 
-    # git clone https://github.com/RoGeorge/python-ivi.git
-    # # python setup.py install
-    # cd RoGeorge
-    # pip install -e .
+    mkdir python-ivi_RoGeorge_fork && cd python-ivi_RoGeorge_fork
+    git clone https://github.com/RoGeorge/python-ivi.git
+    cd python-ivi
+    pip install -e .
     
 -----------
 
