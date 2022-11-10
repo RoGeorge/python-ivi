@@ -10,8 +10,10 @@ This is the RoGeorge fork of python-ivi <- from nicedwarf/python-ivi <- from ale
     git clone https://github.com/RoGeorge/python-ivi.git
     cd python-ivi
     pip install -e .
-    
-To uninstall it
+
+\
+----------------
+To uninstall it:
 
     pip uninstall python-ivi
 \
