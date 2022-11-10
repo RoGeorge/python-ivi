@@ -2,7 +2,7 @@ This is the RoGeorge fork of python-ivi <- from nicedwarf/python-ivi <- from ale
 
 - Needed it for its included drivers supporting Rigol instruments, particularly looking at the DS1000Z, DG4000 and the DP800 series (DS1104Z, DG4202, DP832A), because their corresponding drivers from alexforencich/python-ivi were absent or not working, i.e. the DS1000Z drivers not working for meas:item type of commands (2022).  
 - There were 108 forks of python-ivi before creating this 109'th one, while the main python-ivi was not updated for many years now.
-- Another reason is the attempt to add (partial) support for Rigol DG4000 series of Function/Arbitrary Waveform Generators (AWG).  For now, some basic commands are working already (e.g. setting the frequency) if a DG4202 AWG is connected as MS1074Z MSO.
+- Another reason is the attempt to add (partial) support for Rigol DG4000 series of Function/Arbitrary Waveform Generators (AWG).  For now, some basic commands are working already (e.g. setting the frequency) if a DG4202 AWG is connected as a MSO1074Z MSO.
 
 ## Installation of Python-IVI from the RoGeorge/python-ivi fork
 
