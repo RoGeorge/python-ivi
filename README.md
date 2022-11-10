@@ -11,8 +11,13 @@ This is the RoGeorge fork of python-ivi <- from nicedwarf/python-ivi <- from ale
     cd python-ivi
     pip install -e .
     
------------
+To uninstall it
 
+    pip uninstall python-ivi
+\
+\
+\
+----------------
 
 # Python IVI Readme
 
