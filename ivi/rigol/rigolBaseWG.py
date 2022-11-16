@@ -334,7 +334,7 @@ class rigolBaseWG(fgen.Base, fgen.StdFunc, fgen.ArbWfm, fgen.ArbFrequency,
     def _set_output_standard_waveform_duty_cycle_high(self, index, value):
         index = ivi.get_index(self._output_name, index)
         value = float(value)
-        print value
+        # print value
         if value < 10.0 or value > 90.0:
             raise ivi.OutOfRangeException()
         if not self._driver_operation_simulate:
