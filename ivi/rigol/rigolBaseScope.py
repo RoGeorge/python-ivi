@@ -1191,13 +1191,13 @@ class rigolBaseScope(scpi.common.IdnCommand, scpi.common.ErrorQuery, scpi.common
 
     def _measurement_fetch_waveform_measurement(self, index, measurement_function, ref_channel = None):
         index = ivi.get_index(self._channel_name, index)
-        print 'measurement_function ', measurement_function
-        print 'index is ', index
+        # print 'measurement_function ', measurement_function
+        # print 'index is ', index
         if index < self._analog_channel_count:
             if measurement_function not in MeasurementFunctionMapping:
                 raise ivi.ValueNotSupportedException()
             func = MeasurementFunctionMapping[measurement_function]
-            print 'func is ', func
+            # print 'func is ', func
         else:
             if measurement_function not in MeasurementFunctionMappingDigital:
                 raise ivi.ValueNotSupportedException()
